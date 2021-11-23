@@ -1,14 +1,17 @@
 // see SignupForm.js for comments
 import React, { useState } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
-
+//TODO: Replace the `loginUser()` functionality imported from the `API` file with the `LOGIN_USER` mutation functionality.
 import { loginUser } from '../utils/API';
 import Auth from '../utils/auth';
+import { useMutation } from "@apollo/react-hooks";
+// import { LOGIN_USER } from "../utils/mutations";
 
 const LoginForm = () => {
   const [userFormData, setUserFormData] = useState({ email: '', password: '' });
   const [validated] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
+  const [loginUser] = useMutation(LOGIN_USER);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -25,6 +28,23 @@ const LoginForm = () => {
       event.stopPropagation();
     }
 
+  //   try {
+  //     const { data } = await loginUser({
+  //       variables: {
+  //         ...userFormData
+  //       },
+  //     });
+  //     Auth.login(data.login.token);
+  //   } catch(err) {
+  //     console.log(err);
+  //     setShowAlert(true);
+  //   }
+  //   setUserFormData({
+  //     username: '',
+  //     email: '',
+  //     password: '',
+  //   });
+  // };
     try {
       const response = await loginUser(userFormData);
 

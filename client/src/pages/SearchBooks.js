@@ -4,6 +4,7 @@ import { Jumbotron, Container, Col, Form, Button, Card, CardColumns } from 'reac
 import Auth from '../utils/auth';
 import { saveBook, searchGoogleBooks } from '../utils/API';
 import { saveBookIds, getSavedBookIds } from '../utils/localStorage';
+import { SAVE_BOOK } from "../utils/mutations";
 
 const SearchBooks = () => {
   // create state for holding returned google api data
@@ -13,6 +14,11 @@ const SearchBooks = () => {
 
   // create state to hold saved bookId values
   const [savedBookIds, setSavedBookIds] = useState(getSavedBookIds());
+
+  //TODO: Create an Apollo Provider to make every request work with the Apollo Server. Make sure you keep the logic for saving the book's ID to state in the `try...catch` block! 
+
+// const [saveBook] = useMutation(SAVE_BOOK);
+
 
   // set up useEffect hook to save `savedBookIds` list to localStorage on component unmount
   // learn more here: https://reactjs.org/docs/hooks-effect.html#effects-with-cleanup
@@ -63,7 +69,11 @@ const SearchBooks = () => {
     if (!token) {
       return false;
     }
-
+    // try {
+    //   await saveBook({
+    //     variables: {input: bookToSave},
+    //   });
+    
     try {
       const response = await saveBook(bookToSave, token);
 
