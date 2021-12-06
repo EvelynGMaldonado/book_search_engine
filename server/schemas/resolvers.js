@@ -1,5 +1,5 @@
 const { AuthenticationError } = require("apollo-server-express");
-const { User } = require('../models');
+const { User, Book } = require('../models');
 const { signToken } = require("../utils/auth");
 
 
@@ -13,8 +13,19 @@ const resolvers = {
         const userData = await User.findOne({
           _id:context.user._id
         })
-        .select("-__v -password").populate("books");
+        .select("-__v -password");
+        const userPopulate = await userData.populate("savedBooks").execPopulate();
         return userData;
+      }
+      throw new AuthenticationError("User is not logged in")
+    },
+    findBook:async (parent, {args, context}) => {
+      //if context has an 'user property' then it means that the user excecuting this query has a valid JWT and is already logged in
+      if(context.savedBooks) {
+        const bookData = await Book.findOne({
+          title:context.savedBooks.title
+        }).populate("savedBooks");
+        return bookData;
       }
       throw new AuthenticationError("User is not logged in")
     },

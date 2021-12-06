@@ -31,5 +31,5 @@ const bookSchema = new Schema({
     ref: "User"
   }
 });
-const Book = model('Book', bookSchema)
+const savedBooks = model('Book', bookSchema)
 module.exports = bookSchema;
