@@ -4,8 +4,8 @@ import { Form, Button, Alert } from 'react-bootstrap';
 import { createUser } from '../utils/API';
 import Auth from '../utils/auth';
 //TODO: Replace the `addUser()` functionality imported from the `API` file with the `ADD_USER` mutation functionality.
-//import { useMutation } from "@apollo/react-hooks";
-//import { ADD_USER } from "../utils/mutations";
+import { useMutation } from "@apollo/react-hooks";
+import { ADD_USER } from "../utils/mutations";
 
 const SignupForm = () => {
   // set initial form state
@@ -15,12 +15,12 @@ const SignupForm = () => {
     password: '' 
   });
   // set state for form validation
-  const [validated] = useState(false);
+  // const [validated] = useState(false);
   // set state for alert
   const [showAlert, setShowAlert] = useState(false);
 
   //MUTATION QUERY TO ADD A USER
-  //const [createUser] = useMutation(ADD_USER);
+  const [createUser {error, data}] = useMutation(ADD_USER);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -51,28 +51,19 @@ const SignupForm = () => {
       console.error(err);
       setShowAlert(true);
     }
-    // try {
-      // const { data } = await createUser({
-      //   VARIABLES: {
-      //     ...userFormData
-      //   },
-      // });
-    //   Auth.login(token);
-    // } catch (err) {
-    //   console.error(err);
-    //   setShowAlert(true);
-    // }
-    // setUserFormData({
-    //   username: '',
-    //   email: '',
-    //   password: '',
-    // });
-    // };
-    setUserFormData({
-      username: '',
-      email: '',
-      password: '',
-    });
+    try {
+      const { data } = await createUser({
+        variables: {
+          ...userFormData
+        },
+      });
+      Auth.login(data.token);
+        setUserFormData(data.createUser.user)
+    } catch (err) {
+      console.error(err);
+      setShowAlert(true);
+    }
+    };
   };
 
   return (
@@ -125,6 +116,7 @@ const SignupForm = () => {
         <Button
           disabled={!(userFormData.username && userFormData.email && userFormData.password)}
           type='submit'
+          onClick={handleFormSubmit}
           variant='success'>
           Submit
         </Button>
