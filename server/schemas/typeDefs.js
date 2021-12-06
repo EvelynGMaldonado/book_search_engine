@@ -8,6 +8,7 @@ const typeDefs = gql`
     image: String
     link: String
     title: String
+    user: [User]
   }
 
   type User {
@@ -24,6 +25,7 @@ const typeDefs = gql`
 
   type Query {
     me: User
+    findBook: (title:String):[Book]
   }
 
   type Mutation {
@@ -39,6 +41,7 @@ const typeDefs = gql`
     image: String
     link: String
     title: String
+    user: String
   }
 `;
 
