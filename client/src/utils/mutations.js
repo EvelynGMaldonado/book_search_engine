@@ -1,4 +1,4 @@
-import gql from 'grapghql-tag';
+import gql from 'graphql-tag';
 
 //graphQL mutation query that will be executed by Apollo Client and will add a new user
 export const ADD_USER =gql`

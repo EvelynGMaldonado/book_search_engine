@@ -19,11 +19,11 @@ const resolvers = {
       }
       throw new AuthenticationError("User is not logged in")
     },
-    findBook:async (parent, {args, context}) => {
+    findBook: async (parent, {args, context}) => {
       //if context has an 'user property' then it means that the user excecuting this query has a valid JWT and is already logged in
       if(context.savedBooks) {
         const bookData = await Book.findOne({
-          title:context.savedBooks.title
+          title: context.savedBooks.title
         }).populate("savedBooks");
         return bookData;
       }

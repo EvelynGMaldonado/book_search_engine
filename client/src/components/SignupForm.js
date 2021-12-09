@@ -15,12 +15,12 @@ const SignupForm = () => {
     password: '' 
   });
   // set state for form validation
-  // const [validated] = useState(false);
+  const [validated, setValidated] = useState(false);
   // set state for alert
   const [showAlert, setShowAlert] = useState(false);
 
   //MUTATION QUERY TO ADD A USER
-  const [createUser {error, data}] = useMutation(ADD_USER);
+  const [createUser, {error, data}] = useMutation(ADD_USER);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -62,7 +62,7 @@ const SignupForm = () => {
     } catch (err) {
       console.error(err);
       setShowAlert(true);
-    }
+
     };
   };
 
